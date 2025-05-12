@@ -135,7 +135,7 @@ def visualize(maze, start, end):
     canvas.itemconfig(rects[start], fill='green')
     canvas.itemconfig(rects[end], fill='red')
 
-    # Desenha legenda abaixo do labirinto
+   # Desenha legenda abaixo do labirinto
     y_text = height + 10
     box_size = cell_size // 2
     for label, color in legend_items:
@@ -189,4 +189,3 @@ def main():
 
 if _name_ == '_main_':
     main()
-    
