@@ -1,4 +1,4 @@
-# Repositório Trabalhos em Grupo FPAA 1.2025*
+# Repositório Trabalhos em Grupo FPAA 1.2025
 
 Este repositório é destinado aos trabalhos em grupo da disciplina Fundamentos de Projeto e Análise de Algoritmo, da PUC Minas, no 1º semestre de 2025.
 
