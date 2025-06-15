@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import collections
 import pygame
@@ -58,7 +59,7 @@ def read_inputs():
                 print('Erro: use somente 0 ou 1.')
                 sys.exit(1)
             grid.append(row)
-# coordenadas iniciais
+    # coordenadas iniciais
     while True:
         try:
             x, y = map(int, input('Coordenadas iniciais (linha coluna)? ').split())
@@ -102,3 +103,66 @@ def get_color(val):
     if val not in PALETTE:
         PALETTE[val] = (random.randrange(50,256), random.randrange(50,256), random.randrange(50,256))
     return PALETTE[val]
+
+# Mostra gráfico com Pygame, incluindo legenda
+def display_graphical(grid):
+    n, m = len(grid), len(grid[0])
+    pygame.init()
+    window_width  = m*(CELL_SIZE+MARGIN)+MARGIN + LEGEND_WIDTH
+    window_height = n*(CELL_SIZE+MARGIN)+MARGIN
+    screen = pygame.display.set_mode((window_width, window_height))
+    pygame.display.set_caption('FloodFill - Regiões Coloridas')
+    clock = pygame.time.Clock()
+
+    pygame.font.init()
+    font = pygame.font.SysFont(None, 24)
+
+    running = True
+    while running:
+        clock.tick(FPS)
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                running = False
+        # fundo branco
+        screen.fill((255,255,255))
+        # desenha grid
+        for i, row in enumerate(grid):
+            for j, val in enumerate(row):
+                color = get_color(val)
+                x = j*(CELL_SIZE+MARGIN) + MARGIN
+                y = i*(CELL_SIZE+MARGIN) + MARGIN
+                pygame.draw.rect(screen, color, (x, y, CELL_SIZE, CELL_SIZE))
+        # desenha legenda
+        legend_x = m*(CELL_SIZE+MARGIN) + 2*MARGIN
+        heading = font.render('Legenda:', True, (0,0,0))
+        screen.blit(heading, (legend_x, MARGIN))
+        for idx, val in enumerate(sorted(PALETTE.keys())):
+            y = MARGIN + 30 + idx*30
+            col_rect = pygame.Rect(legend_x, y, 20, 20)
+            pygame.draw.rect(screen, get_color(val), col_rect)
+            label = f"{val}: obst" if val == 1 else f"{val}"
+            text = font.render(label, True, (0,0,0))
+            screen.blit(text, (legend_x+30, y))
+        pygame.display.flip()
+    pygame.quit()
+
+# Imprime grid
+def print_grid(grid):
+    print('\nGrid final:')
+    for row in grid:
+        print(' '.join(str(x) for x in row))
+
+# Função principal
+def main():
+    grid, sx, sy = read_inputs()
+    # mostra grid inicial
+    print_grid(grid)
+    display_graphical(grid)
+    # executa flood fill
+    fill_all_regions(grid, sx, sy)
+    # mostra resultado final
+    print_grid(grid)
+    display_graphical(grid)
+
+if __name__ == '__main__':
+    main()
