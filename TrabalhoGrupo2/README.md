@@ -47,3 +47,27 @@ O Flood Fill é uma técnica de varredura em largura (BFS) que colore regiões c
 - Múltiplas regiões: após preencher a região inicial, varre o grid para cada célula ainda 0, incrementa a cor e repete o flood fill, garantindo cobertura completa.
 
 - Esse método é garantido para colorir todas as células livres conectadas ortogonalmente e identificar regiões separadas.
+
+## Estrutura do Código
+
+- Importações (linhas 1–6): módulos sys, collections, pygame, random, time, math.
+
+- Constantes (linhas 8–16): configurações de tamanho de célula, margem, FPS, largura da legenda e paleta inicial.
+
+- generate_random_grid (linhas 18–20): função que retorna um grid n×m com obstáculos distribuídos aleatoriamente.
+
+- read_inputs (linhas 22–50): lê n, m, escolhe modo (Automático ou Manual), gera ou lê o grid e captura coordenada inicial válida.
+
+- flood_fill (linhas 52–62): implementa BFS ortogonal para preencher uma única região com a cor fornecida.
+
+- fill_all_regions (linhas 64–73): chama flood_fill para a região inicial e, em seguida, varre todo o grid para preencher outras regiões, incrementando a cor.
+
+- get_color (linhas 75–79): retorna cor RGB de PALETTE ou gera uma nova cor aleatória para cada valor de célula.
+
+- display_graphical (linhas 81–114): abre janela Pygame, desenha o grid e a legenda, exibindo cores e legendas até o usuário fechar a janela.
+
+- print_grid (linhas 116–120): imprime no terminal o grid atual, linha a linha.
+
+- main (linhas 122–129): fluxo principal de execução — lê entradas, mostra grid inicial (terminal e GUI), executa flood fill, mostra grid final (terminal e GUI).
+
+
