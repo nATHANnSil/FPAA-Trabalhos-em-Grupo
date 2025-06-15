@@ -58,3 +58,47 @@ def read_inputs():
                 print('Erro: use somente 0 ou 1.')
                 sys.exit(1)
             grid.append(row)
+# coordenadas iniciais
+    while True:
+        try:
+            x, y = map(int, input('Coordenadas iniciais (linha coluna)? ').split())
+            if x < 0 or x >= n or y < 0 or y >= m:
+                raise ValueError
+            if grid[x][y] != 0:
+                print('Célula inicial deve ser 0 (livre).')
+                continue
+            break
+        except ValueError:
+            print('Entrada inválida. Tente novamente.')
+    return grid, x, y
+
+# Flood fill BFS ortogonal
+def flood_fill(grid, sx, sy, color):
+    n, m = len(grid), len(grid[0])
+    queue = collections.deque([(sx, sy)])
+    grid[sx][sy] = color
+    while queue:
+        i, j = queue.popleft()
+        for di, dj in [(-1,0),(1,0),(0,-1),(0,1)]:
+            ni, nj = i+di, j+dj
+            if 0 <= ni < n and 0 <= nj < m and grid[ni][nj] == 0:
+                grid[ni][nj] = color
+                queue.append((ni, nj))
+
+# Preenche todas regiões
+def fill_all_regions(grid, sx, sy):
+    color = 2
+    flood_fill(grid, sx, sy, color)
+    n, m = len(grid), len(grid[0])
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] == 0:
+                color += 1
+                flood_fill(grid, i, j, color)
+    return color
+
+# Cor RGB para cada valor
+def get_color(val):
+    if val not in PALETTE:
+        PALETTE[val] = (random.randrange(50,256), random.randrange(50,256), random.randrange(50,256))
+    return PALETTE[val]
